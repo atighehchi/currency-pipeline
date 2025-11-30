@@ -104,7 +104,7 @@ function parseHTML(html) {
 // 4. Main pipeline
 async function main() {
   try {
-    const [jsonData, html] = await Promise.all([fetchJSON()]); //, fetchHTML()]);
+    const [jsonData, html] = await Promise.all([fetchJSON(), fetchHTML()]);
     //const htmlData = parseHTML(html);
 
     const output = {};
@@ -114,7 +114,7 @@ async function main() {
 
       output[code] = {
         "بازار آزاد": free //,
-        //...htmlData[code]
+        ...htmlData[code]
       };
     }
 
