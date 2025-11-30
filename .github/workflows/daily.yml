@@ -2,8 +2,11 @@ name: Daily Currency Pipeline
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # runs daily at 05:00 UTC
-  workflow_dispatch:       # manual trigger
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # allow pushing to gh-pages
 
 jobs:
   build:
@@ -25,7 +28,6 @@ jobs:
 
       - name: Build JSON
         run: node fetch_and_build.js > public/prices.json
-        
 
       - name: Deploy to Pages
         uses: peaceiris/actions-gh-pages@v3
