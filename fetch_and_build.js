@@ -113,7 +113,7 @@ async function main() {
       const free = typeof freeRaw === "number" ? fmt(freeRaw) : freeRaw;
 
       output[code] = {
-        "بازار آزاد": free //,
+        "بازار آزاد": free,
         ...htmlData[code]
       };
     }
