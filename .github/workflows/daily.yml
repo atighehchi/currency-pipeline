@@ -22,6 +22,7 @@ jobs:
 
       - name: Build JSON
         run: node fetch_and_build.js > public/prices.json
+        
 
       - name: Deploy to Pages
         uses: peaceiris/actions-gh-pages@v3
