@@ -37,6 +37,7 @@ async function fetchJSON() {
   return out;
 }
 
+/*
 // 2. Fetch HTML table (TGJU site)
 async function fetchHTML() {
   const url = "https://www.tgju.org/%D9%85%D8%B1%DA%A9%D8%B2-%D9%85%D8%A8%D8%A7%D8%AF%D9%84%D9%87-%D8%A7%D8%B1%D8%B2-%D9%88-%D8%B7%D9%84%D8%A7%DB%8C-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86";
@@ -98,12 +99,12 @@ function parseHTML(html) {
 
   return map;
 }
-
+*/
 // 4. Main pipeline
 async function main() {
   try {
     const [jsonData, html] = await Promise.all([fetchJSON(), fetchHTML()]);
-    const htmlData = parseHTML(html);
+    //const htmlData = parseHTML(html);
 
     const output = {};
     for (const code of symbols) {
@@ -111,8 +112,8 @@ async function main() {
       const free = typeof freeRaw === "number" ? fmt(freeRaw) : freeRaw;
 
       output[code] = {
-        "بازار آزاد": free,
-        ...htmlData[code]
+        "بازار آزاد": free //,
+        //...htmlData[code]
       };
     }
 
