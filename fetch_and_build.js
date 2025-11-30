@@ -39,7 +39,7 @@ async function fetchJSON() {
 
 // 2. Fetch HTML table (TGJU site)
 async function fetchHTML() {
-  const url = "https://www.tgju.org/مرکز-مبادله-ارز-و-طلای-ایران";
+  const url = "https://bonashub.com/temp_iccc_bj_prices/ice_prices.php";
   const res = await fetch(url, {
     headers: {
       "User-Agent":
