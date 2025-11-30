@@ -39,7 +39,7 @@ async function fetchJSON() {
 
 // 2. Fetch HTML table (CBI site)
 async function fetchHTML() {
-  const url = "https://fxmarketrate.cbi.ir/";
+  const url = "https://www.tgju.org/%D9%85%D8%B1%DA%A9%D8%B2-%D9%85%D8%A8%D8%A7%D8%AF%D9%84%D9%87-%D8%A7%D8%B1%D8%B2-%D9%88-%D8%B7%D9%84%D8%A7%DB%8C-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86";
   const res = await fetch(url, {
     headers: {
       "User-Agent":
@@ -56,26 +56,43 @@ async function fetchHTML() {
 // 3. Parse HTML table
 function parseHTML(html) {
   const $ = cheerio.load(html);
-  const rows = $("#MainContent_ViewCashChequeRates_divCash table tbody tr");
   const map = {};
 
-  rows.each((_, tr) => {
-    const tds = $(tr).find("td");
-    if (tds.length >= 6) {
-      const code = $(tds[1]).text().trim().toUpperCase();
-      if (symbols.includes(code)) {
-        const toNum = (s) => {
-          const raw = s.replace(/,/g, "").trim();
-          if (!raw) return null;
-          return parseInt(raw, 10) / 10; // site values are ×10
-        };
-        map[code] = {
-          "نرخ خرید": fmt(toNum($(tds[2]).text())),
-          "نرخ فروش": fmt(toNum($(tds[3]).text())),
-          "نرخ خرید حواله": fmt(toNum($(tds[4]).text())),
-          "نرخ فروش حواله": fmt(toNum($(tds[5]).text()))
-        };
-      }
+  // Persian headings we care about
+  const categories = {
+    "فروش ( اسکناس )": "نرخ فروش (اسکناس)",
+    "خرید ( اسکناس )": "نرخ خرید (اسکناس)",
+    "فروش ( حواله )": "نرخ فروش (حواله)",
+    "خرید ( حواله )": "نرخ خرید (حواله)"
+  };
+
+  // Loop over each table
+  $("table.data-table.market-table").each((_, table) => {
+    const heading = $(table).find("thead th").first().text().trim();
+    if (categories[heading]) {
+      const label = categories[heading];
+
+      $(table)
+        .find("tbody tr")
+        .each((__, tr) => {
+          const codeAttr = $(tr).attr("data-market-nameslug") || "";
+          let code = null;
+          if (codeAttr.includes("usd")) code = "USD";
+          else if (codeAttr.includes("eur")) code = "EUR";
+          else if (codeAttr.includes("aed")) code = "AED";
+          else if (codeAttr.includes("cny")) code = "CNY";
+
+          if (code) {
+            const priceStr =
+              $(tr).attr("data-price") ||
+              $(tr).find("td.nf").first().text().trim();
+            const num = parseInt(priceStr.replace(/,/g, ""), 10);
+            const formatted = fmt(num / 10); // divide by 10 like before
+
+            if (!map[code]) map[code] = {};
+            map[code][label] = formatted;
+          }
+        });
     }
   });
 
