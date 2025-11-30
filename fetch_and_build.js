@@ -105,7 +105,7 @@ function parseHTML(html) {
 async function main() {
   try {
     const [jsonData, html] = await Promise.all([fetchJSON(), fetchHTML()]);
-    //const htmlData = parseHTML(html);
+    const htmlData = parseHTML(html);
 
     const output = {};
     for (const code of symbols) {
