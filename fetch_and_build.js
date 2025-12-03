@@ -103,12 +103,6 @@ function parseHTML(html) {
 // 4. Main pipeline
 import fs from "fs";
 
-// helper to parse Persian-formatted string back to number
-function parseFmt(str) {
-  if (!str || str === "-") return null;
-  return parseInt(str.replace(/[^\d]/g, ""), 10);
-}
-
 async function main() {
   try {
     const [jsonData, html] = await Promise.all([fetchJSON(), fetchHTML()]);
@@ -123,28 +117,43 @@ async function main() {
 
     const output = {};
     for (const code of symbols) {
+      // بازار آزاد as plain number
       const freeRaw = jsonData?.[code]?.price ?? null;
       const free = typeof freeRaw === "number" ? Math.round(freeRaw) : null;
 
       output[code] = {
         "بازار آزاد": free,
-        ...htmlData[code]
+        ...htmlData[code]   // htmlData already stores numbers now
       };
 
       // --- compare all 5 prices ---
-      const labels = ["بازار آزاد","نرخ خرید (اسکناس)","نرخ فروش (اسکناس)","نرخ خرید (حواله)","نرخ فروش (حواله)"];
+      const labels = [
+        "بازار آزاد",
+        "نرخ خرید (اسکناس)",
+        "نرخ فروش (اسکناس)",
+        "نرخ خرید (حواله)",
+        "نرخ فروش (حواله)"
+      ];
+
       for (const label of labels) {
         const prevNum = yesterday?.[code]?.[label];
-        const currNum = output[code][label];
-        
+        const currNum = output[code]?.[label];
+
         if (typeof prevNum === "number" && typeof currNum === "number") {
-          if (currNum > prevNum) output[code][`${label} تغییر`] = "⬆️";
-          else if (currNum < prevNum) output[code][`${label} تغییر`] = "⬇️";
-          else output[code][`${label} تغییر`] = "➖";
+          if (currNum > prevNum) {
+            output[code][`${label} تغییر`] = "⬆️";
+          } else if (currNum < prevNum) {
+            output[code][`${label} تغییر`] = "⬇️";
+          } else {
+            output[code][`${label} تغییر`] = "➖";
+          }
+        } else {
+          output[code][`${label} تغییر`] = "-";
         }
       }
     }
 
+    // --- write new JSON ---
     fs.writeFileSync("public/prices.json", JSON.stringify(output, null, 2), "utf8");
     console.log(JSON.stringify(output, null, 2));
   } catch (err) {
