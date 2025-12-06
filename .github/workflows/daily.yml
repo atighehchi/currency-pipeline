@@ -27,7 +27,7 @@ jobs:
         run: mkdir -p public
 
       - name: Build JSON
-        run: node fetch_and_build.js > public/prices.json
+        run: node fetch_and_build.js
 
       - name: Deploy to Pages
         uses: peaceiris/actions-gh-pages@v3
