@@ -61,18 +61,18 @@ function parseHTML(html) {
   const $ = cheerio.load(html);
   const map = {};
 
-  // Define canonical labels once
-  const labels = {
-    "فروش ( اسکناس )": "نرخ فروش (اسکناس)",
-    "خرید ( اسکناس )": "نرخ خرید (اسکناس)",
-    "فروش ( حواله )": "نرخ فروش (حواله)",
-    "خرید ( حواله )": "نرخ خرید (حواله)"
+  // Canonical English labels
+  const categories = {
+    "فروش ( اسکناس )": "Cash Sell",
+    "خرید ( اسکناس )": "Cash Buy",
+    "فروش ( حواله )": "Remit Sell",
+    "خرید ( حواله )": "Remit Buy"
   };
 
   $("table.data-table.market-table").each((_, table) => {
     const heading = $(table).find("thead th").first().text().trim();
-    if (labels[heading]) {
-      const label = labels[heading];
+    if (categories[heading]) {
+      const label = categories[heading];
 
       $(table)
         .find("tbody tr")
@@ -100,7 +100,6 @@ function parseHTML(html) {
   return map;
 }
 
-// 4. Main pipeline
 async function main() {
   try {
     const [jsonData, html] = await Promise.all([fetchJSON(), fetchHTML()]);
@@ -115,11 +114,11 @@ async function main() {
 
     const output = {};
     const labels = [
-      "بازار آزاد",
-      "نرخ خرید (اسکناس)",
-      "نرخ فروش (اسکناس)",
-      "نرخ خرید (حواله)",
-      "نرخ فروش (حواله)"
+      "Free Market",
+      "Cash Buy",
+      "Cash Sell",
+      "Remit Buy",
+      "Remit Sell"
     ];
 
     for (const code of symbols) {
@@ -127,15 +126,11 @@ async function main() {
       const free = typeof freeRaw === "number" ? Math.round(freeRaw) : null;
 
       output[code] = {
-        "بازار آزاد": free,
+        "Free Market": free,
         ...htmlData[code]
       };
-
-      // --- debug: show keys for yesterday vs today ---
-      console.log(`\n=== ${code} ===`);
-      console.log("Yesterday keys:", Object.keys(yesterday?.[code] || {}));
-      console.log("Today keys:", Object.keys(output[code]));
-
+      output[code][`${label} debug_prev`] = yesterday?.[code]?.[label];
+      output[code][`${label} debug_curr`] = output[code]?.[label];
 
       // --- compare all 5 prices ---
       for (const label of labels) {
@@ -144,14 +139,14 @@ async function main() {
 
         if (typeof prevNum === "number" && typeof currNum === "number") {
           if (currNum > prevNum) {
-            output[code][`${label} تغییر`] = "⬆️";
+            output[code][`${label} Change`] = "⬆️";
           } else if (currNum < prevNum) {
-            output[code][`${label} تغییر`] = "⬇️";
+            output[code][`${label} Change`] = "⬇️";
           } else {
-            output[code][`${label} تغییر`] = "➖";
+            output[code][`${label} Change`] = "➖";
           }
         } else {
-          output[code][`${label} تغییر`] = "!";
+          output[code][`${label} Change`] = "!";
         }
       }
     }
