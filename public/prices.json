@@ -1,0 +1,73 @@
+{
+  "error": {
+    "error": "Unexpected end of JSON input"
+  },
+  "USD": {
+    "Free Market": 122155,
+    "Cash Buy": 73187,
+    "Cash Sell": 73852,
+    "Remit Buy": 71056,
+    "Remit Sell": 71701,
+    "Free Market Change": "!",
+    "Free Market debug_curr": 122155,
+    "Cash Buy Change": "!",
+    "Cash Buy debug_curr": 73187,
+    "Cash Sell Change": "!",
+    "Cash Sell debug_curr": 73852,
+    "Remit Buy Change": "!",
+    "Remit Buy debug_curr": 71056,
+    "Remit Sell Change": "!",
+    "Remit Sell debug_curr": 71701
+  },
+  "EUR": {
+    "Free Market": 142250,
+    "Cash Buy": 85158,
+    "Cash Sell": 85931,
+    "Remit Buy": 82678,
+    "Remit Sell": 83429,
+    "Free Market Change": "!",
+    "Free Market debug_curr": 142250,
+    "Cash Buy Change": "!",
+    "Cash Buy debug_curr": 85158,
+    "Cash Sell Change": "!",
+    "Cash Sell debug_curr": 85931,
+    "Remit Buy Change": "!",
+    "Remit Buy debug_curr": 82678,
+    "Remit Sell Change": "!",
+    "Remit Sell debug_curr": 83429
+  },
+  "AED": {
+    "Free Market": 33263,
+    "Cash Buy": 19929,
+    "Cash Sell": 20110,
+    "Remit Buy": 19348,
+    "Remit Sell": 19524,
+    "Free Market Change": "!",
+    "Free Market debug_curr": 33263,
+    "Cash Buy Change": "!",
+    "Cash Buy debug_curr": 19929,
+    "Cash Sell Change": "!",
+    "Cash Sell debug_curr": 20110,
+    "Remit Buy Change": "!",
+    "Remit Buy debug_curr": 19348,
+    "Remit Sell Change": "!",
+    "Remit Sell debug_curr": 19524
+  },
+  "CNY": {
+    "Free Market": 17280,
+    "Cash Buy": 10352,
+    "Cash Sell": 10446,
+    "Remit Buy": 10050,
+    "Remit Sell": 10142,
+    "Free Market Change": "!",
+    "Free Market debug_curr": 17280,
+    "Cash Buy Change": "!",
+    "Cash Buy debug_curr": 10352,
+    "Cash Sell Change": "!",
+    "Cash Sell debug_curr": 10446,
+    "Remit Buy Change": "!",
+    "Remit Buy debug_curr": 10050,
+    "Remit Sell Change": "!",
+    "Remit Sell debug_curr": 10142
+  }
+}
