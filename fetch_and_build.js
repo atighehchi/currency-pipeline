@@ -129,8 +129,6 @@ async function main() {
         "Free Market": free,
         ...htmlData[code]
       };
-      output[code][`${label} debug_prev`] = yesterday?.[code]?.[label];
-      output[code][`${label} debug_curr`] = output[code]?.[label];
 
       // --- compare all 5 prices ---
       for (const label of labels) {
@@ -146,7 +144,9 @@ async function main() {
             output[code][`${label} Change`] = "➖";
           }
         } else {
-          output[code][`${label} Change`] = "!";
+          output[code][`${label} Change`] = "!";  
+          output[code][`${label} debug_prev`] = yesterday?.[code]?.[label];
+          output[code][`${label} debug_curr`] = output[code]?.[label];
         }
       }
     }
