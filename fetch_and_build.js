@@ -1,6 +1,7 @@
 // fetch_and_build.js
 import fetch from "node-fetch";
 import * as cheerio from "cheerio";
+import fs from "fs";
 
 const symbols = ["USD", "EUR", "AED", "CNY"];
 
