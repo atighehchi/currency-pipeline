@@ -110,7 +110,9 @@ async function main() {
     try {
       const prev = fs.readFileSync("public/prices.json", "utf8");
       yesterday = JSON.parse(prev);
-    } catch (e) {}
+    } catch (e) {
+      console.error("Failed to read yesterday's file:", e.message);
+    }
 
     const output = {};
     const labels = [
