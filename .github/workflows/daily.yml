@@ -1,50 +1,50 @@
-name: Daily Currency Pipeline
+#name: Daily Currency Pipeline
 
-on:
-  schedule:
-    - cron: "0 8 * * *"
-  workflow_dispatch:
+#on:
+#  schedule:
+#    - cron: "0 8 * * *"
+#  workflow_dispatch:
 
-permissions:
-  contents: write   # allow pushing to gh-pages
+#permissions:
+#  contents: write   # allow pushing to gh-pages
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+#      - name: Setup Node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: "20"
 
-      - name: Install deps
-        run: npm install node-fetch cheerio
+#      - name: Install deps
+#        run: npm install node-fetch cheerio
 
-      - name: Make public folder
-        run: mkdir -p public
+#      - name: Make public folder
+#        run: mkdir -p public
 
-      - name: Download yesterday's JSON
-        uses: actions/download-artifact@v4
-        with:
-          name: prices-json
-          path: public
-        continue-on-error: true
+#      - name: Download yesterday's JSON
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: prices-json
+#          path: public
+#        continue-on-error: true
 
-      - name: Build JSON
-        run: node fetch_and_build.js
+#      - name: Build JSON
+#        run: node fetch_and_build.js
 
-      - name: Deploy to Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: public
+#      - name: Deploy to Pages
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: public
       
-      - name: Upload prices.json
-        uses: actions/upload-artifact@v4
-        with:
-          name: prices-json
-          path: public/prices.json
-          retention-days: 2
+#      - name: Upload prices.json
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: prices-json
+#          path: public/prices.json
+#          retention-days: 2
