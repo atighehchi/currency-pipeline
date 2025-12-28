@@ -1,30 +1,30 @@
-name: Heartbeat Commit
+#name: Heartbeat Commit
 
-permissions:
-  contents: write
+#permissions:
+#  contents: write
   
-on:
-  schedule:
-    - cron: "0 0 1 * *"   # runs at 00:00 UTC on the 1st of every month
-  workflow_dispatch:        # allow manual trigger
+#on:
+#  schedule:
+#    - cron: "0 0 1 * *"   # runs at 00:00 UTC on the 1st of every month
+#  workflow_dispatch:        # allow manual trigger
 
-jobs:
-  keepalive:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+#jobs:
+#  keepalive:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repo
+#        uses: actions/checkout@v3
+#        with:
+#          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#      - name: Configure git
+#        run: |
+#          git config user.name "github-actions[bot]"
+#          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Heartbeat commit
-        run: |
-          echo "Last heartbeat: $(date)" > .heartbeat.txt
-          git add .heartbeat.txt
-          git commit -m "chore: heartbeat commit"
-          git push
+#      - name: Heartbeat commit
+#        run: |
+#          echo "Last heartbeat: $(date)" > .heartbeat.txt
+#          git add .heartbeat.txt
+#          git commit -m "chore: heartbeat commit"
+#          git push
